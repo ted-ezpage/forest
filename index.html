@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternal Forest | Nature's Sanctuary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #2e7d32;
+            --primary-dark: #1b5e20;
+            --primary-light: #81c784;
+            --secondary: #8d6e63;
+            --light: #f5f5f5;
+            --dark: #263238;
+            --text-dark: #37474f;
+            --text-light: #eceff1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+        
+        /* Parallax Background */
+        .parallax {
+            height: 100vh;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+        
+        .parallax::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        
+        .parallax-inner {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards 0.5s;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-dark);
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards 0.8s;
+            max-width: 800px;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.5s ease;
+        }
+        
+        header.scrolled {
+            background-color: rgba(46, 125, 50, 0.9);
+            padding: 15px 50px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2.2rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-image: url('https://images.unsplash.com/photo-1476231682828-37e571bc172f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease forwards 1s;
+        }
+        
+        .btn:hover {
+            background-color: transparent;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border-color: white;
+            margin-left: 20px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        /* Sections */
+        section {
+            padding: 100px 50px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .underline {
+            height: 3px;
+            width: 100px;
+            background-color: var(--primary);
+            margin: 10px auto 30px;
+            position: relative;
+        }
+        
+        .underline::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -3px;
+            height: 9px;
+            width: 9px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            animation: dotMove 2s infinite ease-in-out;
+        }
+        
+        /* Features */
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            flex: 1 1 300px;
+            max-width: 350px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Gallery */
+        .gallery {
+            background-color: var(--primary-light);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            height: 250px;
+            overflow: hidden;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            opacity: 0;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            background-color: var(--light);
+        }
+        
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .testimonial {
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+        }
+        
+        .testimonial.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .testimonial-content {
+            margin-bottom: 20px;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .testimonial-content::before,
+        .testimonial-content::after {
+            content: '"';
+            font-size: 2rem;
+            color: var(--primary-light);
+            position: absolute;
+        }
+        
+        .testimonial-content::before {
+            top: -15px;
+            left: 0;
+        }
+        
+        .testimonial-content::after {
+            bottom: -30px;
+            right: 0;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+            border: 3px solid var(--primary);
+        }
+        
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info {
+            text-align: left;
+        }
+        
+        .author-name {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        .author-title {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            opacity: 0.7;
+        }
+        
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-dot.active {
+            background-color: var(--primary-dark);
+            transform: scale(1.2);
+        }
+        
+        /* CTA */
+        .cta {
+            background-image: url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            text-align: center;
+            color: white;
+        }
+        
+        .cta h2 {
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--text-light);
+            padding: 70px 50px 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column {
+            flex: 1 1 250px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            color: var(--primary-light);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+        
+        .footer-column ul li a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px);
+            background-color: var(--primary-light);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.6;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes dotMove {
+            0%, 100% {
+                left: 0;
+            }
+            50% {
+                left: calc(100% - 9px);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            header {
+                padding: 15px 20px;
+            }
+            
+            nav ul li {
+                margin-left: 15px;
+            }
+            
+            section {
+                padding: 70px 20px;
+            }
+            
+            .btn-container {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-left: 0;
+            }
+            
+            .feature-card {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo"><i class="fas fa-tree"></i> Eternal Forest</a>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="parallax hero">
+        <div class="parallax-inner">
+            <h1>Discover the Magic of Eternal Forest</h1>
+            <p class="subtitle">Immerse yourself in nature's wonderland where ancient trees whisper secrets and wildlife thrives in harmony</p>
+            <div class="btn-container">
+                <a href="#about" class="btn">Explore More</a>
+                <a href="#" class="btn btn-secondary">Plan Your Visit</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-title">
+            <h2>Our Ancient Woodland</h2>
+            <div class="underline"></div>
+        </div>
+        <p>Eternal Forest spans over 50,000 acres of pristine wilderness, home to ancient oaks that have stood for centuries and a rich ecosystem that supports countless species. Our forest is a living museum, where every tree has a story to tell and every path leads to discovery.</p>
+        <p>Established in 1892 as a protected sanctuary, Eternal Forest has been carefully preserved to maintain its natural beauty while allowing visitors to experience the healing power of nature. The forest is a designated UNESCO Biosphere Reserve, recognized for its unique biodiversity and conservation efforts.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="bg-light">
+        <div class="section-title">
+            <h2>Forest Features</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-hiking"></i>
+                </div>
+                <h3>Trails & Hikes</h3>
+                <p>Explore over 200 miles of well-maintained trails ranging from easy walks to challenging backcountry routes. Our trails are designed to immerse you in nature while preserving the delicate ecosystem.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-binoculars"></i>
+                </div>
+                <h3>Wildlife Watching</h3>
+                <p>Home to over 300 bird species, 50 mammal species, and countless insects and reptiles. Our wildlife observation decks offer perfect vantage points to observe nature without disturbance.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h3>Education Programs</h3>
+                <p>Daily guided tours, night walks, school programs, and expert-led workshops teach visitors of all ages about forest ecology, conservation efforts, and sustainable practices.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="section-title">
+            <h2>Forest Gallery</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Forest path">
+                <div class="gallery-caption">
+                    <h3>Sunlit Trails</h3>
+                    <p>Morning light filtering through ancient oaks</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Dense forest">
+                <div class="gallery-caption">
+                    <h3>Ancient Woodland</h3>
+                    <p>Our oldest section with 500-year-old trees</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1588392382834-a891154bca4d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Forest stream">
+                <div class="gallery-caption">
+                    <h3>Crystal Waters</h3>
+                    <p>Pristine streams nourish the ecosystem</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1470114716159-e389f8712fda?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Autumn forest">
+                <div class="gallery-caption">
+                    <h3>Seasonal Colors</h3>
+                    <p>The forest transforms with each season</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Misty forest">
+                <div class="gallery-caption">
+                    <h3>Mystical Mornings</h3>
+                    <p>Early morning fog creates magical scenes</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Mushrooms">
+                <div class="gallery-caption">
+                    <h3>Micro Worlds</h3>
+                    <p>Discover the tiny ecosystems beneath our feet</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="section-title">
+            <h2>Visitor Experiences</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="testimonial-slider">
+            <div class="testimonial active">
+                <div class="testimonial-content">
+                    Visiting Eternal Forest changed my perspective on nature. The ancient trees seem to whisper wisdom if you listen closely. The guided night walk was particularly magical, revealing an entire world that comes alive after dark.
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Sarah Johnson">
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Sarah Johnson</div>
+                        <div class="author-title">Nature Photographer</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    As a biologist, I've visited many forests worldwide, but Eternal Forest stands out for its remarkable biodiversity. The conservation programs here are exemplary. I spotted three rare bird species in just one morning!
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Michael Chen">
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">Dr. Michael Chen</div>
+                        <div class="author-title">Ecologist</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    Our family visits Eternal Forest every season to witness nature's changes. The children's education programs are fantastic - my kids now know more about forest ecology than I do! The accessibility of trails means everyone can enjoy this treasure.
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="The Patel Family">
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name">The Patel Family</div>
+                        <div class="author-title">Regular Visitors</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active" data-index="0"></div>
+                <div class="slider-dot" data-index="1"></div>
+                <div class="slider-dot" data-index="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="parallax cta">
+        <div class="parallax-inner">
+            <h2>Ready to Experience Eternal Forest?</h2>
+            <p>Plan your visit today and immerse yourself in nature's grandeur.</p>
+            <a href="#" class="btn">Book Your Visit</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-title">
+            <h2>Get in Touch</h2>
+            <div class="underline"></div>
+        </div>
+        <p>Have questions about visiting Eternal Forest or want to learn more about our conservation efforts? We'd love to hear from you. Use the form below to connect with our team, or check out our FAQ page for quick answers to common questions.</p>
+        <form style="max-width: 600px; margin: 30px auto;">
+            <div style="margin-bottom: 20px;">
+                <input type="text" placeholder="Your Name" style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid #ddd; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <input type="email" placeholder="Your Email" style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid #ddd; font-size: 1rem;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <textarea placeholder="Your Message" rows="5" style="width: 100%; padding: 12px 15px; border-radius: 5px; border: 1px solid #ddd; font-size: 1rem;"></textarea>
+            </div>
+            <button type="submit" style="background-color: var(--primary); color: white; padding: 12px 30px; border: none; border-radius: 30px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>About Eternal Forest</h3>
+                <p>Dedicated to preserving ancient woodland and educating visitors about sustainable coexistence with nature since 1892.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Visitor Info</h3>
+                <ul>
+                    <li><a href="#">Hours & Admission</a></li>
+                    <li><a href="#">Map & Directions</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                    <li><a href="#">Visitor Guidelines</a></li>
+                    <li><a href="#">Events Calendar</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Conservation</h3>
+                <ul>
+                    <li><a href="#">Research Programs</a></li>
+                    <li><a href="#">Volunteer Opportunities</a></li>
+                    <li><a href="#">Donation Options</a></li>
+                    <li><a href="#">Species Protection</a></li>
+                    <li><a href="#">Sustainability Plans</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Eternal Forest Nature Reserve. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Testimonial slider
+        const testimonials = document.querySelectorAll('.testimonial');
+        const dots = document.querySelectorAll('.slider-dot');
+        
+        dots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                const index = this.getAttribute('data-index');
+                
+                // Remove active classes
+                testimonials.forEach(testimonial => testimonial.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Add active classes
+                testimonials[index].classList.add('active');
+                this.classList.add('active');
+            });
+        });
+
+        // Auto rotate testimonials
+        let currentTestimonial = 0;
+        function rotateTestimonials() {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            
+            // Remove active classes
+            testimonials.forEach(testimonial => testimonial.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Add active classes
+            testimonials[currentTestimonial].classList.add('active');
+            dots[currentTestimonial].classList.add('active');
+        }
+        
+        setInterval(rotateTestimonials, 5000);
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('nav ul li a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <a href="https://enzostvs-deepsite.hf.space" style="color: #fff;" target="_blank" >DeepSite</a> <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;"></p></body>
+</html>
